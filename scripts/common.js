@@ -1,4 +1,7 @@
-/* Primero definimos las clases que voy a usar */
+/* VARIABLES GLOBALES */
+const ID_RESPONSABLE_INSCRIPTO = 1;
+const ID_CONSUMIDOR_FINAL = 2;
+
 class Producto {
     nombre = "";
     descripcion = "";
@@ -111,130 +114,139 @@ class CondicionFiscal {
     }
 }
 
-/* declaro algunas variables */
-const ID_RESPONSABLE_INSCRIPTO = 1;
-const ID_CONSUMIDOR_FINAL = 2;
+class Menu {
+    productos = [
+        new Producto("Remera", "", 1000, 21),
+        new Producto("Gorra", "", 500, 21),
+        new Producto("Muñeco 3D", "", 1500, 21)
+    ];
 
-const productos = [
-    new Producto("Remera", "", 1000, 21),
-    new Producto("Gorra", "", 500, 21),
-    new Producto("Muñeco 3D", "", 1500, 21)
-];
+    carrito = new CarritoCompra();
 
-//MENU
+    //Funciones del menú
 
-let salir = false;
+    agregarProducto() {
+        let mensaje = "Ingrese el número de producto que desea:\n";
 
-const carrito = new CarritoCompra();
-carrito.condicionFiscal = new CondicionFiscal(ID_CONSUMIDOR_FINAL, "Consumidor final");
+        let indice = 0;
+        for(const producto of this.productos)
+        {
+            mensaje += `${parseInt(indice) + 1} - ${producto.nombre}\n`;
+            indice++;
+        }
 
-do {
-    let opcion = prompt(`
-        Ingrese la opción deseada: 
-        1 - Agregar producto al carrito
-        2 - Quitar producto del carrito
-        3 - Seleccionar condicion fiscal
-        4 - Mostrar total
-        5 - Limpiar carrito
-        0 - Salir
-    `);
+        let nroProducto = prompt(mensaje);
 
-    let mensaje = "";
-    let nroProducto = 0;
-    let cantidad = 0;
-    let detalle = null;
-    let indice = 0;
+        if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > this.productos.length)
+        {
+            alert("seleccione una opción válida");
+            return false;
+        }
 
-    switch(opcion){
-        case "1":
-            mensaje = "Ingrese el número de producto que desea:\n";
+        let cantidad = prompt("Ingrese la cantidad deseada: ");
 
-            indice = 0;
-            for(const producto of productos)
-            {
-                mensaje += `${parseInt(indice) + 1} - ${producto.nombre}\n`;
-                indice++;
-            }
+        if(isNaN(parseInt(cantidad)) || parseInt(cantidad) < 0)
+        {
+            alert("Ingrese una cantidad válida");
+            return false;
+        }
 
-            nroProducto = prompt(mensaje);
+        let detalle = new DetalleCarritoCompra(this.productos[parseInt(nroProducto) - 1], parseInt(cantidad));
 
-            if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > productos.length)
-            {
-                alert("seleccione una opción válida");
-                break;
-            }
+        this.carrito.detallesCarritoCompra.push(detalle);
 
-            cantidad = prompt("Ingrese la cantidad deseada: ");
+        return true;
+    }
 
-            if(isNaN(parseInt(cantidad)) || parseInt(cantidad) < 0)
-            {
-                alert("Ingrese una cantidad válida");
-                break;
-            }
+    quitarProducto() {
+        let mensaje = "Ingrese el número del producto que desea retirar:\n";
 
-            detalle = new DetalleCarritoCompra(productos[parseInt(nroProducto) - 1], parseInt(cantidad));
+        let indice = 0;
+        for(const detalle of this.carrito.detallesCarritoCompra)
+        {
+            mensaje += `${parseInt(indice) + 1} - ${detalle.producto.nombre}\n`;
+            indice++;
+        }
 
-            carrito.detallesCarritoCompra.push(detalle);
+        mensaje += "0 - Salir";
 
-        break;
+        let nroProducto = prompt(mensaje);
 
-        case "2":
-            mensaje = "Ingrese el número del producto que desea retirar:\n";
+        if(parseInt(nroProducto) == 0)
+        {
+            return false;
+        }
 
-            indice = 0;
-            for(const detalle of carrito.detallesCarritoCompra)
-            {
-                mensaje += `${parseInt(indice) + 1} - ${detalle.producto.nombre}\n`;
-                indice++;
-            }
+        if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > this.carrito.detallesCarritoCompra.length)
+        {
+            alert("seleccione una opción válida");
+            return false;
+        }
 
-            mensaje += "0 - Salir";
+        this.carrito.detallesCarritoCompra.splice(parseInt(nroProducto) - 1, 1);
 
-            nroProducto = prompt(mensaje);
+        return true;
+    }
 
-            if(parseInt(nroProducto) == 0)
-            {
-                break;
-            }
+    seleccionarCondicionFiscal() {
+        let condicion = prompt(`
+            Ingrese la condición fiscal: 
+            1 - Responsable inscripto
+            2 - Consumidor final
+        `);
 
-            if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > carrito.detallesCarritoCompra.length)
-            {
-                alert("seleccione una opción válida");
-                break;
-            }
+        if(condicion == "1")
+        {
+            this.carrito.condicionFiscal = new CondicionFiscal(ID_RESPONSABLE_INSCRIPTO, "Responsable inscripto");
+        }
+        else
+        {
+            this.carrito.condicionFiscal = new CondicionFiscal(ID_CONSUMIDOR_FINAL, "Consumidor final");
+        }
+    }
 
-            carrito.detallesCarritoCompra.splice(parseInt(nroProducto) - 1, 1);
+    mostrarMenu() {
+        let salir = false;
 
-            break;
-        
-        case "3":
-            let condicion = prompt(`
-                Ingrese la condición fiscal: 
-                1 - Responsable inscripto
-                2 - Consumidor final
+        this.carrito.condicionFiscal = new CondicionFiscal(ID_CONSUMIDOR_FINAL, "Consumidor final");
+
+        do {
+            let opcion = prompt(`
+                Ingrese la opción deseada: 
+                1 - Agregar producto al carrito
+                2 - Quitar producto del carrito
+                3 - Seleccionar condicion fiscal
+                4 - Mostrar total
+                5 - Limpiar carrito
+                0 - Salir
             `);
 
-            if(condicion == "1")
-            {
-                carrito.condicionFiscal = new CondicionFiscal(ID_RESPONSABLE_INSCRIPTO, "Responsable inscripto");
-            }
-            else
-            {
-                carrito.condicionFiscal = new CondicionFiscal(ID_CONSUMIDOR_FINAL, "Consumidor final");
-            }
+            switch(opcion){
+                case "1":
+                    this.agregarProducto();
+                break;
 
-            break;
-        
-        case "4":
-            carrito.mostrarModeloFactura();
-            break;
+                case "2":
+                    this.quitarProducto();
+                break;
+                
+                case "3":
+                    this.seleccionarCondicionFiscal();
+                break;
+                
+                case "4":
+                    this.carrito.mostrarModeloFactura();
+                break;
 
-        case "5":
-            carrito.detallesCarritoCompra = [];
-            break;
-        
-        case "0":
-            salir = true;
-            break;
+                case "5":
+                    this.carrito.detallesCarritoCompra = [];
+                break;
+                
+                case "0":
+                    salir = true;
+                break;
+            }
+        } while (!salir)
     }
-} while (!salir)
+}
+
