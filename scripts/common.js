@@ -129,22 +129,28 @@ do {
     let opcion = prompt(`
         Ingrese la opción deseada: 
         1 - Agregar producto al carrito
-        2 - Seleccionar condicion fiscal
-        3 - Mostrar total
-        4 - Limpiar carrito
+        2 - Quitar producto del carrito
+        3 - Seleccionar condicion fiscal
+        4 - Mostrar total
+        5 - Limpiar carrito
         0 - Salir
     `);
 
+    let mensaje = "";
+    let nroProducto = 0;
+    let cantidad = 0;
+    let detalle = null;
+
     switch(opcion){
         case "1":
-            let mensaje = "Ingrese el número de producto que desea:\n";
+            mensaje = "Ingrese el número de producto que desea:\n";
 
             for(i in productos)
             {
                 mensaje += `${parseInt(i) + 1} - ${productos[i].nombre}\n`;
             }
 
-            let nroProducto = prompt(mensaje);
+            nroProducto = prompt(mensaje);
 
             if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > productos.length)
             {
@@ -152,7 +158,7 @@ do {
                 break;
             }
 
-            let cantidad = prompt("Ingrese la cantidad deseada: ");
+            cantidad = prompt("Ingrese la cantidad deseada: ");
 
             if(isNaN(parseInt(cantidad)) || parseInt(cantidad) < 0)
             {
@@ -160,13 +166,40 @@ do {
                 break;
             }
 
-            let detalle = new DetalleCarritoCompra(productos[parseInt(nroProducto) - 1], parseInt(cantidad));
+            detalle = new DetalleCarritoCompra(productos[parseInt(nroProducto) - 1], parseInt(cantidad));
 
             carrito.detallesCarritoCompra.push(detalle);
 
+        break;
+
+        case "2":
+            mensaje = "Ingrese el número del producto que desea retirar:\n";
+
+            for(i in carrito.detallesCarritoCompra)
+            {
+                mensaje += `${parseInt(i) + 1} - ${carrito.detallesCarritoCompra[i].producto.nombre}\n`;
+            }
+
+            mensaje += "0 - Salir";
+
+            nroProducto = prompt(mensaje);
+
+            if(parseInt(nroProducto) == 0)
+            {
+                break;
+            }
+
+            if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > carrito.detallesCarritoCompra.length)
+            {
+                alert("seleccione una opción válida");
+                break;
+            }
+
+            carrito.detallesCarritoCompra.splice(parseInt(nroProducto) - 1, 1);
+
             break;
         
-        case "2":
+        case "3":
             let condicion = prompt(`
                 Ingrese la condición fiscal: 
                 1 - Responsable inscripto
@@ -184,11 +217,11 @@ do {
 
             break;
         
-        case "3":
+        case "4":
             carrito.mostrarModeloFactura();
             break;
 
-        case "4":
+        case "5":
             carrito.detallesCarritoCompra = [];
             break;
         
