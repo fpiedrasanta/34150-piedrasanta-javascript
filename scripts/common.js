@@ -58,30 +58,33 @@ class CarritoCompra {
         let totalIVA = 0;
 
         let factura = [];
-        for(let i = 0; i < this.detallesCarritoCompra.length; i++) {
+        let indice = 0;
+        for(const detalle of this.detallesCarritoCompra) {
             if(this.condicionFiscal != null && this.condicionFiscal.id == ID_RESPONSABLE_INSCRIPTO)
             {
                 //Si es responsable inscripto debo discriminar IVA
                 factura.push(`
-                    ${i + 1} - 
-                    Producto: ${this.detallesCarritoCompra[i].producto.nombre} - 
-                    Cantidad: ${this.detallesCarritoCompra[i].cantidad} - 
-                    Precio unitario sin IVA: ${this.detallesCarritoCompra[i].producto.precioUnitarioSinIVA} - 
-                    Total sin IVA: ${this.detallesCarritoCompra[i].obtenerTotalSinIVA()} - 
-                    Total IVA: ${this.detallesCarritoCompra[i].obtenerTotalIVA()} - 
-                    Total: ${this.detallesCarritoCompra[i].obtenerTotalConIVA()}`);
+                    ${parseInt(indice) + 1} - 
+                    Producto: ${detalle.producto.nombre} - 
+                    Cantidad: ${detalle.cantidad} - 
+                    Precio unitario sin IVA: ${detalle.producto.precioUnitarioSinIVA} - 
+                    Total sin IVA: ${detalle.obtenerTotalSinIVA()} - 
+                    Total IVA: ${detalle.obtenerTotalIVA()} - 
+                    Total: ${detalle.obtenerTotalConIVA()}`);
             } else {
                 //Si no, no discrimina IVA
                 factura.push(`
-                    ${i + 1} - 
-                    Producto: ${this.detallesCarritoCompra[i].producto.nombre} - 
-                    Cantidad: ${this.detallesCarritoCompra[i].cantidad} - 
-                    Precio unitario: ${this.detallesCarritoCompra[i].producto.obtenerPrecioUnitarioConIVA()} - 
-                    Total: ${this.detallesCarritoCompra[i].obtenerTotalConIVA()}`);
+                    ${parseInt(indice) + 1} - 
+                    Producto: ${detalle.producto.nombre} - 
+                    Cantidad: ${detalle.cantidad} - 
+                    Precio unitario: ${detalle.producto.obtenerPrecioUnitarioConIVA()} - 
+                    Total: ${detalle.obtenerTotalConIVA()}`);
             }
 
-            totalSinIVA += this.detallesCarritoCompra[i].obtenerTotalSinIVA();
-            totalIVA += this.detallesCarritoCompra[i].obtenerTotalIVA();
+            totalSinIVA += detalle.obtenerTotalSinIVA();
+            totalIVA += detalle.obtenerTotalIVA();
+
+            indice++;
         }
 
         for(let i = 0; i < factura.length; i++) {
@@ -140,14 +143,17 @@ do {
     let nroProducto = 0;
     let cantidad = 0;
     let detalle = null;
+    let indice = 0;
 
     switch(opcion){
         case "1":
             mensaje = "Ingrese el número de producto que desea:\n";
 
-            for(i in productos)
+            indice = 0;
+            for(const producto of productos)
             {
-                mensaje += `${parseInt(i) + 1} - ${productos[i].nombre}\n`;
+                mensaje += `${parseInt(indice) + 1} - ${producto.nombre}\n`;
+                indice++;
             }
 
             nroProducto = prompt(mensaje);
@@ -175,9 +181,11 @@ do {
         case "2":
             mensaje = "Ingrese el número del producto que desea retirar:\n";
 
-            for(i in carrito.detallesCarritoCompra)
+            indice = 0;
+            for(const detalle of carrito.detallesCarritoCompra)
             {
-                mensaje += `${parseInt(i) + 1} - ${carrito.detallesCarritoCompra[i].producto.nombre}\n`;
+                mensaje += `${parseInt(indice) + 1} - ${detalle.producto.nombre}\n`;
+                indice++;
             }
 
             mensaje += "0 - Salir";
