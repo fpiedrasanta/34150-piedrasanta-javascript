@@ -1,6 +1,10 @@
 /* VARIABLES GLOBALES */
 const ID_RESPONSABLE_INSCRIPTO = 1;
 const ID_CONSUMIDOR_FINAL = 2;
+const NOMBRE = 1;
+const PRECIO = 2;
+const ASC = 1;
+const DESC = 2;
 
 class Producto {
     nombre = "";
@@ -124,41 +128,62 @@ class Menu {
     carrito = new CarritoCompra();
 
     //Funciones del menú
-
-    agregarProducto() {
+    seleccionarProducto(listaProductos) {
         let mensaje = "Ingrese el número de producto que desea:\n";
 
         let indice = 0;
-        for(const producto of this.productos)
+        for(const producto of listaProductos)
         {
-            mensaje += `${parseInt(indice) + 1} - ${producto.nombre}\n`;
+            mensaje += `${parseInt(indice) + 1} - ${producto.nombre} - $ ${parseFloat(producto.precioUnitarioSinIVA).toFixed(2)}\n`;
             indice++;
         }
 
         let nroProducto = prompt(mensaje);
 
-        if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > this.productos.length)
+        if(isNaN(parseInt(nroProducto)) || parseInt(nroProducto) < 1 || parseInt(nroProducto) > listaProductos.length)
+        {
+            return null;
+        }
+
+        return listaProductos[parseInt(nroProducto) - 1];
+    }
+
+    seleccionarCantidad() {
+        let cantidad = prompt("Ingrese la cantidad deseada: ");
+
+        if(isNaN(parseInt(cantidad)) || parseInt(cantidad) < 0)
+        {
+            return 0;
+        }
+
+        return parseInt(cantidad);
+    }
+
+    agregarProductoAlCarrito(listaProductos) {
+        let producto = this.seleccionarProducto(listaProductos);
+
+        if(producto == null)
         {
             alert("seleccione una opción válida");
             return false;
         }
 
-        let cantidad = prompt("Ingrese la cantidad deseada: ");
+        let cantidad = this.seleccionarCantidad();
 
-        if(isNaN(parseInt(cantidad)) || parseInt(cantidad) < 0)
+        if(cantidad == 0)
         {
             alert("Ingrese una cantidad válida");
             return false;
         }
 
-        let detalle = new DetalleCarritoCompra(this.productos[parseInt(nroProducto) - 1], parseInt(cantidad));
+        let detalle = new DetalleCarritoCompra(producto, cantidad);
 
         this.carrito.detallesCarritoCompra.push(detalle);
 
         return true;
     }
 
-    quitarProducto() {
+    quitarProductoDelCarrito() {
         let mensaje = "Ingrese el número del producto que desea retirar:\n";
 
         let indice = 0;
@@ -205,6 +230,115 @@ class Menu {
         }
     }
 
+    seleccionarMetodoOrdenamiento(){
+        let ordenarPor = prompt(
+            "Ordenar por:\n" + 
+            "1 - Nombre\n" + 
+            "2 - Precio\n" +
+            "Ingrese la opción deseada");
+
+        if(isNaN(parseInt(ordenarPor)) || parseInt(ordenarPor) < 1 || parseInt(ordenarPor) > 2)
+        {
+            alert("Debe ingresar un valor correcto");
+            return false;
+        }
+
+        let direccion = prompt(
+            "De manera:\n" + 
+            "1 - Ascendente\n" + 
+            "2 - Descendente\n" +
+            "Ingrese la opción deseada");
+
+        if(isNaN(parseInt(direccion)) || parseInt(direccion) < 1 || parseInt(direccion) > 2)
+        {
+            alert("Debe ingresar un valor correcto");
+            return false;
+        }
+
+        this.ordenarProductos(parseInt(ordenarPor), parseInt(direccion));
+    }
+
+    ordenarProductos(ordenarPor, direccion) {
+        //Ordeno los productos.
+        //El metodo sort es destructivo, con lo cual pierdo el orden
+        //del array original.
+        //Por ahora creo que no hace falta hacer una copia
+        
+        if(ordenarPor == NOMBRE) {
+            this.productos.sort((a, b) => {
+                if (a.nombre < b.nombre){
+                    if(direccion == ASC) {
+                        console.log(`${a.nombre} < ${b.nombre} - NOMBRE ASC`);
+                        return -1;
+                    } else if(direccion == DESC) {
+                        console.log(`${a.nombre} < ${b.nombre} - NOMBRE DESC`);
+                        return 1;
+                    }
+                    return 0;
+                } 
+
+                if (a.nombre > b.nombre) {
+                    if(direccion == ASC) {
+                        console.log(`${a.nombre} > ${b.nombre} - NOMBRE ASC`);
+                        return 1;
+                    } else if(direccion == DESC) {
+                        console.log(`${a.nombre} > ${b.nombre} - NOMBRE DESC`);
+                        return - 1;
+                    }
+                    return 0;
+                }
+
+                return 0;
+            });
+        } else if(ordenarPor == PRECIO) {
+            this.productos.sort((a, b) => {
+                if (parseFloat(a.precioUnitarioSinIVA) < parseFloat(b.precioUnitarioSinIVA)){
+                    if(direccion == ASC) {
+                        console.log(`${a.precioUnitarioSinIVA} < ${b.precioUnitarioSinIVA} - PRECIO ASC`);
+                        return -1;
+                    } else if(direccion == DESC) {
+                        console.log(`${a.precioUnitarioSinIVA} < ${b.precioUnitarioSinIVA} - PRECIO DESC`);
+                        return 1;
+                    }
+
+                    return 0;
+                } 
+
+                if (parseFloat(a.precioUnitarioSinIVA) > parseFloat(b.precioUnitarioSinIVA)){
+                    if(direccion == ASC) {
+                        console.log(`${a.precioUnitarioSinIVA} > ${b.precioUnitarioSinIVA} - PRECIO ASC`);
+                        return 1;
+                    } else if(direccion == DESC) {
+                        console.log(`${a.precioUnitarioSinIVA} > ${b.precioUnitarioSinIVA} - PRECIO DESC`);
+                        return -1;
+                    }
+                    
+                    return 0;
+                } 
+                return 0;
+            });
+        }
+    }
+
+    buscarProducto() {
+        let query = prompt("Ingrese el criterio de búsqueda");
+
+        let productosFiltrado = 
+            this.productos.filter(
+                producto => producto.nombre.toLowerCase().includes(
+                    query.toLowerCase()
+                )
+            );
+
+        if(productosFiltrado == null || productosFiltrado.length <= 0)
+        {
+            alert("No se encontró ningún producto");
+            return false;
+        }
+
+        this.agregarProductoAlCarrito(productosFiltrado);
+    }
+
     mostrarMenu() {
         let salir = false;
 
@@ -213,32 +347,42 @@ class Menu {
         do {
             let opcion = prompt(`
                 Ingrese la opción deseada: 
-                1 - Agregar producto al carrito
-                2 - Quitar producto del carrito
-                3 - Seleccionar condicion fiscal
-                4 - Mostrar total
-                5 - Limpiar carrito
+                1 - Ordenar productos
+                2 - Buscar producto
+                3 - Agregar producto al carrito
+                4 - Quitar producto del carrito
+                5 - Seleccionar condicion fiscal
+                6 - Mostrar total
+                7 - Limpiar carrito
                 0 - Salir
             `);
 
             switch(opcion){
                 case "1":
-                    this.agregarProducto();
+                    this.seleccionarMetodoOrdenamiento();
                 break;
 
                 case "2":
-                    this.quitarProducto();
+                    this.buscarProducto();
+                break;
+
+                case "3":
+                    this.agregarProductoAlCarrito(this.productos);
+                break;
+
+                case "4":
+                    this.quitarProductoDelCarrito();
                 break;
                 
-                case "3":
+                case "5":
                     this.seleccionarCondicionFiscal();
                 break;
                 
-                case "4":
+                case "6":
                     this.carrito.mostrarModeloFactura();
                 break;
 
-                case "5":
+                case "7":
                     this.carrito.detallesCarritoCompra = [];
                 break;
                 
@@ -250,3 +394,7 @@ class Menu {
     }
 }
 
+/* EJECUCIÓN DEL PROGRAMA */
+const menu = new Menu();
+    
+menu.mostrarMenu();
