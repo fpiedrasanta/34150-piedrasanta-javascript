@@ -55,8 +55,7 @@ class CarritoCompra {
     detallesCarritoCompra = [];
 
     mostrarModeloFactura() {
-        if(this.detallesCarritoCompra.length == 0)
-        {
+        if(this.detallesCarritoCompra.length == 0) {
             console.log("El carrito está vacio");
             return;
         }
@@ -67,8 +66,7 @@ class CarritoCompra {
         let factura = [];
         let indice = 0;
         for(const detalle of this.detallesCarritoCompra) {
-            if(this.condicionFiscal != null && this.condicionFiscal.id == ID_RESPONSABLE_INSCRIPTO)
-            {
+            if(this.condicionFiscal != null && this.condicionFiscal.id == ID_RESPONSABLE_INSCRIPTO) {
                 //Si es responsable inscripto debo discriminar IVA
                 factura.push(`
                     ${parseInt(indice) + 1} - 
@@ -128,6 +126,9 @@ class Menu {
     carrito = new CarritoCompra();
 
     //Funciones del menú
+
+    //Función que utilizo para seleccionar un producto
+    //Y agregar al carrito
     seleccionarProducto(listaProductos) {
         let mensaje = "Ingrese el número de producto que desea:\n";
 
@@ -148,6 +149,7 @@ class Menu {
         return listaProductos[parseInt(nroProducto) - 1];
     }
 
+    //Función que utilizo para seleccionar una cantidad
     seleccionarCantidad() {
         let cantidad = prompt("Ingrese la cantidad deseada: ");
 
@@ -159,6 +161,9 @@ class Menu {
         return parseInt(cantidad);
     }
 
+    //Función que utilizo para agregar un producto más una cantidad
+    //Al carrito de compra de una lista de productos.
+    //La lista puede ser completa o flitrada.
     agregarProductoAlCarrito(listaProductos) {
         let producto = this.seleccionarProducto(listaProductos);
 
@@ -183,6 +188,7 @@ class Menu {
         return true;
     }
 
+    //Función que utilizo para quitar un producto del carrito.
     quitarProductoDelCarrito() {
         let mensaje = "Ingrese el número del producto que desea retirar:\n";
 
@@ -213,6 +219,7 @@ class Menu {
         return true;
     }
 
+    //Función para seleccionar la condición fiscal
     seleccionarCondicionFiscal() {
         let condicion = prompt(`
             Ingrese la condición fiscal: 
@@ -230,6 +237,7 @@ class Menu {
         }
     }
 
+    //Función que utilizo para seleccionar el metodo de ordenamiento.
     seleccionarMetodoOrdenamiento(){
         let ordenarPor = prompt(
             "Ordenar por:\n" + 
@@ -258,6 +266,9 @@ class Menu {
         this.ordenarProductos(parseInt(ordenarPor), parseInt(direccion));
     }
 
+    //Funció que ordena.
+    //Tiene varios console log porque quería comprender el funcionamiento.
+    //Es método de la burbuja ¿no?
     ordenarProductos(ordenarPor, direccion) {
         //Ordeno los productos.
         //El metodo sort es destructivo, con lo cual pierdo el orden
@@ -320,6 +331,8 @@ class Menu {
         }
     }
 
+    //Metodo para filtrar el array original
+    //Y llamar al seleccionar producto pero con el array filtrado.
     buscarProducto() {
         let query = prompt("Ingrese el criterio de búsqueda");
 
