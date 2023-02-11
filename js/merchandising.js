@@ -60,7 +60,7 @@ function cargarCarritoAlStorage(carrito) {
 }
 
 //Si el carrito tiene algo, le agrego un fondo verde al carrito.
-//TODO: Agregar la cantidad en el carrito de los productos agregados.
+//TODO: Agregar la cantidad en el carrito de los productos agregados con un circulito arriba del carrito.
 function actualizarEstadoCarrito() {
     let carritoCompra = obtenerCarritoDelStorage();
 
@@ -144,7 +144,7 @@ function agregarProducto(id) {
 //Resta de a uno.
 function quitarProducto(id) {
     let carritoCompra = obtenerCarritoDelStorage();
-    
+
     //1 -> Obtengo del carrito de compras el detalle.
     let detalle = carritoCompra.obtenerDetalleCarritoCompraPorIdProducto(id);
 
