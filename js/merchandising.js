@@ -62,6 +62,8 @@ function cargarCarritoAlStorage(carrito) {
 //Si el carrito tiene algo, le agrego un fondo verde al carrito.
 //TODO: Agregar la cantidad en el carrito de los productos agregados.
 function actualizarEstadoCarrito() {
+    let carritoCompra = obtenerCarritoDelStorage();
+
     if(carritoCompra.detallesCarritoCompra.length > 0) {
         botonCarrito.classList.add("carrito-con-productos");
     } else {
@@ -71,6 +73,8 @@ function actualizarEstadoCarrito() {
 
 //Muestra los productos en la página
 function mostrarProductos(productos){
+    let carritoCompra = obtenerCarritoDelStorage();
+
     //Limpio mi contenedor
     contenedorProductos.innerHTML = "";
 
@@ -78,7 +82,7 @@ function mostrarProductos(productos){
         //Creo un nuevo div para mi producto.
         let nuevoProducto = document.createElement("div");
 
-        let detalle = obtenerDetalleCarritoPorIdProducto(producto.id);
+        let detalle = carritoCompra.obtenerDetalleCarritoCompraPorIdProducto(producto.id);
 
         //Le agrego las clases de bootstrap para que sea responsive.
         //Si existe el detalle en el carrito lo pongo en verde.
@@ -106,8 +110,10 @@ function mostrarProductos(productos){
 //Si ya existe lo suma.
 //Si no, lo agrega.
 function agregarProducto(id) {
+    let carritoCompra = obtenerCarritoDelStorage();
+
     //1 -> Obtengo del carrito de compras el detalle.
-    let detalle = obtenerDetalleCarritoPorIdProducto(id);
+    let detalle = carritoCompra.obtenerDetalleCarritoCompraPorIdProducto(id);
 
     //2 -> Si no exite lo creo.
     if(detalle == null) {
@@ -137,8 +143,10 @@ function agregarProducto(id) {
 //Quita un producto del carrito de compra.
 //Resta de a uno.
 function quitarProducto(id) {
+    let carritoCompra = obtenerCarritoDelStorage();
+    
     //1 -> Obtengo del carrito de compras el detalle.
-    let detalle = obtenerDetalleCarritoPorIdProducto(id);
+    let detalle = carritoCompra.obtenerDetalleCarritoCompraPorIdProducto(id);
 
     //2 -> Si no exite es un error.
     if(detalle == null) return;
@@ -148,7 +156,7 @@ function quitarProducto(id) {
 
     if(detalle.cantidad <= 0) {
         //Tengo que quitar el detalle de la lista.
-        quitarDetalleCarrito(detalle);
+        carritoCompra.quitarDetalleCarritoCompra(detalle);
     }
 
     //4 -> Actualizo mi localStorage.
@@ -159,25 +167,6 @@ function quitarProducto(id) {
 
     //6 -> Actualizo el estado del carrito
     actualizarEstadoCarrito();
-}
-
-/* Obtengo un detalle del carrito por el ID del producto */
-function obtenerDetalleCarritoPorIdProducto(id) {
-    let detalle = carritoCompra.detallesCarritoCompra.find(function(detalle){
-        return detalle.producto.id === id;
-    });
-
-    //Si detalle es undefined, quiero que me devuela null.
-    return (detalle || null);
-}
-
-function quitarDetalleCarrito(detalleAQuitar) {
-    carritoCompra.detallesCarritoCompra = carritoCompra.detallesCarritoCompra.filter(function(detalle){
-        //si el detalle que estoy analizando es diferente al que quiero quitar
-        //retorno true para que se quede.
-        //cuando sean iguales devuelve false y por lo tanto se va.
-        return detalle.producto.id !== detalleAQuitar.producto.id;
-    });
 }
 
 /* Obtengo un producto de la lista original por ID */
@@ -274,6 +263,16 @@ function actualizarModalCarrito() {
     });
 }
 
+function updateStorage(event) {
+    if(event.key == "carritoCompra") {
+        //Si se actualizó el carrito de compra actualizo todo.
+        //Es para cuando tengo más de una pestaña abierta.
+        mostrarProductos(productosFiltrados);
+        actualizarEstadoCarrito();
+        actualizarModalCarrito();
+    }
+}
+
 /* EVENTOS */
 
 //Eventos del buscador.
@@ -298,9 +297,10 @@ selectOrden.addEventListener("change", ()=>{
 
 botonCarrito.addEventListener("click", ()=>{
     actualizarModalCarrito();
-})
+});
+
+window.addEventListener("storage", updateStorage, false);
 
 //INICIO
-let carritoCompra = obtenerCarritoDelStorage();
 mostrarProductos(productosFiltrados);
 actualizarEstadoCarrito();

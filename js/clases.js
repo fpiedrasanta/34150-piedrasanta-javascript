@@ -157,4 +157,22 @@ class CarritoCompra {
         
         console.log(`Total: ${totalSinIVA + totalIVA}`);
     }
+
+    obtenerDetalleCarritoCompraPorIdProducto(id) {
+        let detalle = this.detallesCarritoCompra.find(function(detalle){
+            return detalle.producto.id === id;
+        });
+    
+        //Si detalle es undefined, quiero que me devuela null.
+        return (detalle || null);
+    }
+
+    quitarDetalleCarritoCompra(detalleAQuitar) {
+        this.detallesCarritoCompra = this.detallesCarritoCompra.filter(function(detalle){
+            //si el detalle que estoy analizando es diferente al que quiero quitar
+            //retorno true para que se quede.
+            //cuando sean iguales devuelve false y por lo tanto se va.
+            return detalle.producto.id !== detalleAQuitar.producto.id;
+        });
+    }
 }
