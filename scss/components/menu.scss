@@ -1,0 +1,30 @@
+@import "../variables/variables";
+
+/* MENU */
+.menu {
+    background-color: $primary_color;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    nav {
+        background-color: $primary_color !important;
+    }
+}
+
+.menu-content {
+    width: 100%;
+    padding: 20px;
+
+    a {
+        font-size:20px;
+        color: $secondary_color;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+        text-decoration: none;
+    }
+
+    img {
+        width: 64px;
+        height: 64px;
+    }
+}
+/* FIN MENU */

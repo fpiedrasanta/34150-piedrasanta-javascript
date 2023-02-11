@@ -1,0 +1,31 @@
+/* Manejo de imagenes */
+.img-wrapper {
+    padding: 10px;
+    border-color: #DA0945;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#main_img_wrapper {
+    width: 187px;
+    
+    img {
+        height: 220px;
+    }
+}
+
+#history_img_wrapper {
+    width: 257px;
+
+    img {
+        height: 220px;
+    }
+}
+
+#develop_team_img_wrapper {
+    width: 260px;
+
+    img {
+        height: 270px;
+    }
+}

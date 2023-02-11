@@ -1,0 +1,29 @@
+@import "../variables/variables";
+
+#section_main {
+    display: grid;
+    grid-template-columns: calc(100%-187px) 187px;
+    grid-template-areas: "a1 a2";
+    column-gap: 10px;
+    justify-items: center;
+    align-items: center;
+    
+    justify-content: center;
+    align-content: center;
+}
+
+@media only screen and (max-width:1024px) {
+    #section_main {
+        grid-template-columns: 100%;
+        grid-template-areas: 
+            "a1"
+            "a2";
+        column-gap: 10px;
+        row-gap: 10px;
+        justify-items: center;
+        align-items: center;
+        
+        justify-content: center;
+        align-content: center;
+    }
+}

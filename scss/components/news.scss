@@ -1,0 +1,16 @@
+@import "../variables/variables";
+
+@mixin create_news_components($name, $font_size, $color, $font_style) {
+    .news-#{$name} {
+        font-size:$font_size;
+        color: $color;
+        font-family: $secondary_font;
+        text-decoration: none;
+        font-style: $font_style;
+    }
+}
+
+@include create_news_components("title", 16px, $secondary_color, normal);
+@include create_news_components("subtitle", 14px, $primary_color, italic);
+@include create_news_components("date", 12px, $tertiary_color, italic);
+@include create_news_components("body", 12px, $primary_color, normal);

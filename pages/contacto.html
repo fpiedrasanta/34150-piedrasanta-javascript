@@ -4,14 +4,14 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-
+        <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+        
         <!--ESTILOS-->
         <link rel="stylesheet" 
               href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
               crossorigin="anonymous">
-        <link rel="stylesheet" href="css/site.css">
+        <link rel="stylesheet" href="../css/site.css">
 
         <!--FUENTES-->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,11 +19,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
-        <title>Regrets?</title>
+        <title>Sobre nosotros</title>
         <meta name="description" 
-              content="Regrets es un video juego pensado para pc, del género metroidvania, en el cual 
-                       no existe el descanso eterno. Podrás liberar a las almas perdidas o apoderarte 
-                       de ellas.">
+              content="Formulario de contacto para que puedas comunicarte con los desarrolladores
+                       del video juego Regrets. Cuéntanos, ¿qué te gustó más? ¿qué mejorarías?
+                       ¿tienes alguna idea para compartir?">
         <meta name="keywords"  content="Videojuegos, metroidvania, regrets, plataformero, juego para pc">
         <meta name="author" content="Federico Piedrasanta">
     </head>
@@ -33,7 +33,7 @@
                 <div class="menu-content">
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                         <a class="navbar-brand" href="index.html">
-                            <img src="images/android-chrome-192x192.png" alt="Logo del juego">
+                            <img src="../images/android-chrome-192x192.png" alt="Logo del juego">
                         </a>
 
                         <button class="navbar-toggler" 
@@ -48,23 +48,23 @@
                         
                         <div class="collapse navbar-collapse" id="navbar_menu">
                             <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="../index.html">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="sobre-nosotros.html">Sobre nosotros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="merchandising.html">Merchandising</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="novedades.html">Novedades</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="galeria.html">Galeria</a>
+                                </li>
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/sobre-nosotros.html">Sobre nosotros</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/merchandising.html">Merchandising</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/novedades.html">Novedades</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/galeria.html">Galeria</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="pages/contacto.html">Contacto</a>
+                                    <a class="nav-link" href="contacto.html">Contacto <span class="sr-only">(current)</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -73,45 +73,48 @@
             </div>
 
             <div id="banner_home">
-                <h1>REGRETS?</h1>
+                <h1>Contáctenos</h1>
             </div>
         </header>
         
         <main>
             <div class="main-content">
-                <section id="section_main">
-                    <div id="main_text">
-                        <p>
-                            <strong>Regrets</strong> vendrá a hacer realidad la promesa de un mundo en el que <strong>las decisiones verdaderamente importan</strong>, 
-                            para lograrlo disponemos de puntos críticos en donde las <strong>decisiones del jugador afectarán</strong> las <strong>mecánicas</strong>, 
-                            el <strong>gameplay</strong>, el <strong>bioma</strong> en el que se encuentra y el <strong>final del juego</strong>.
-                        </p>
-                        <p>
-                            Nuestro juego tiene una fuerte referencia a la cultura y estética japonesa para la decoración, los biomas y assets.
-                        </p>
-                    </div>
-                    <div class="img-wrapper" id="main_img_wrapper">
-                        <img src="images/Kaori.jpg" alt="Personaje principal de regrets">
-                    </div>
-                </section>
-                
-                <section id="section_history">
-                    <div class="img-wrapper" id="history_img_wrapper">
-                        <img src="images/check.jpg" alt="Diseño de check point">
-                    </div>
+                <section>
+                    <form action="">
+                        <div class="form-group">
+                            <label for="txt_name">Nombre completo</label>
+                            <input type="text" 
+                                   id="txt_name" 
+                                   placeholder="Nombre completo"
+                                   class="form-control"
+                                   aria-describedby="name_help"
+                                   required>
+                            <small id="name_help" class="form-text text-muted">
+                                Ingrese su nombre y apellido.
+                            </small>
+                        </div>
 
-                    <h2 id="history_title">Historia</h2>
-                    
-                    <div id="history_text">
-                        <p>
-                            Después de su muerte, <strong>Kaori</strong> llegará a este mundo espiritual, desorientada y sin recuerdos de cómo murió, 
-                            <strong>Enma</strong> (la parca) la recibirá
-                            y le ofrecerá trabajar para ella con la promesa de recuperar sus recuerdos y revivir si derrota a todos los jefes.
-                        </p>
-                        <p>
-                            La historia se nos revelará a medida que derrotemos a los jefes y se representará con cinemáticas al estilo de dibujos rupestres.
-                        </p>
-                    </div>
+                        <div class="form-group">
+                            <label for="txt_email">Correo electrónico</label>
+                            <input type="text" 
+                                   id="txt_email" 
+                                   placeholder="Correo electrónico"
+                                   class="form-control"
+                                   aria-describedby="mail_help"
+                                   required>
+                            <small id="name_help" class="form-text text-muted">
+                                Verifique correctamente su correo electrónico antes de enviar el formulario.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txt_message">Mensaje</label>
+                            <textarea class="form-control" id="txt_message" cols="30" rows="10"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Enviar</button>
+                        <button class="btn btn-secondary" type="reset">Limpiar</button>
+                    </form>
                 </section>
             </div>
         </main>

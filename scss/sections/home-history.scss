@@ -1,0 +1,56 @@
+#section_history {
+    display: grid;
+    grid-template-columns: 257px calc(100%-257px);
+    grid-template-areas: 
+        "a1 a2"
+        "a1 a3";
+    column-gap: 20px;
+    row-gap: 20px;
+    justify-items: center;
+    align-items: center;
+    
+    justify-content: center;
+    align-content: center;
+    margin-top: 80px;
+
+    h2 {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+#history_img_wrapper {
+    grid-area: a1;
+}
+
+#history_title {
+    grid-area: a2;
+}
+
+#history_text {
+    grid-area: a3;
+}
+
+@media only screen and (max-width:1024px) {
+    #section_history {
+        grid-template-columns: 100%;
+        grid-template-areas: 
+            "a1"
+            "a2"
+            "a3";
+        row-gap: 20px;
+        column-gap: 0px;
+    }
+    
+    #history_title {
+        grid-area: a1;
+    }
+    
+    #history_img_wrapper {
+        grid-area: a2;
+    }
+
+    #history_text {
+        grid-area: a3;
+    }
+}

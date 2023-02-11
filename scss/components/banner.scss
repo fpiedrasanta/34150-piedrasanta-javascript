@@ -1,0 +1,21 @@
+/* BANNER */
+/* Banner será flex, para acomodar el h1 abajo y al centro */
+@mixin create_banner($name, $url) {
+    #banner_#{$name} {
+        width: 100%;
+        height: 400px;
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        background-image: url($url);    
+    }
+}
+
+@include create_banner("home", "../images/banner-home.png");
+@include create_banner("about_us", "../images/regrets.png");
+@include create_banner("merchandising", "../images/novedades.png");
+@include create_banner("gallery", "../images/novedades.png");
+@include create_banner("news", "../images/novedades.png");
+@include create_banner("contact_us", "../images/novedades.png");
