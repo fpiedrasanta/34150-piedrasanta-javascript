@@ -107,55 +107,33 @@ class CarritoCompra {
         );
     }
 
-    mostrarModeloFactura() {
-        if(this.detallesCarritoCompra.length == 0) {
-            console.log("El carrito está vacio");
-            return;
-        }
-        
+    obtenerTotalSinIVA() {
         let totalSinIVA = 0;
+        for(const detalle of this.detallesCarritoCompra) {
+            totalSinIVA += detalle.obtenerTotalSinIVA();
+        }
+
+        return totalSinIVA;
+    }
+
+    obtenerTotalIVA() {
         let totalIVA = 0;
 
-        let factura = [];
-        let indice = 0;
         for(const detalle of this.detallesCarritoCompra) {
-            if(this.condicionFiscal != null && this.condicionFiscal.id == ID_RESPONSABLE_INSCRIPTO) {
-                //Si es responsable inscripto debo discriminar IVA
-                factura.push(`
-                    ${parseInt(indice) + 1} - 
-                    Producto: ${detalle.producto.nombre} - 
-                    Cantidad: ${detalle.cantidad} - 
-                    Precio unitario sin IVA: ${detalle.producto.precioUnitarioSinIVA} - 
-                    Total sin IVA: ${detalle.obtenerTotalSinIVA()} - 
-                    Total IVA: ${detalle.obtenerTotalIVA()} - 
-                    Total: ${detalle.obtenerTotalConIVA()}`);
-            } else {
-                //Si no, no discrimina IVA
-                factura.push(`
-                    ${parseInt(indice) + 1} - 
-                    Producto: ${detalle.producto.nombre} - 
-                    Cantidad: ${detalle.cantidad} - 
-                    Precio unitario: ${detalle.producto.obtenerPrecioUnitarioConIVA()} - 
-                    Total: ${detalle.obtenerTotalConIVA()}`);
-            }
-
-            totalSinIVA += detalle.obtenerTotalSinIVA();
             totalIVA += detalle.obtenerTotalIVA();
-
-            indice++;
         }
 
-        for(let i = 0; i < factura.length; i++) {
-            console.log(factura[i]);
-        }
+        return totalIVA;
+    }
 
-        if(this.condicionFiscal.id == ID_RESPONSABLE_INSCRIPTO)
-        {
-            console.log(`Total sin IVA: ${totalSinIVA}`);
-            console.log(`Total IVA: ${totalIVA}`);
-        }
+    obtenerTotalConIVA() {
+        let total = 0;
         
-        console.log(`Total: ${totalSinIVA + totalIVA}`);
+        for(const detalle of this.detallesCarritoCompra) {
+            total += detalle.obtenerTotalConIVA();
+        }
+
+        return total;
     }
 
     obtenerDetalleCarritoCompraPorIdProducto(id) {

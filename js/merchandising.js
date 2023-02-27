@@ -7,20 +7,26 @@ const DESC = 2;
 /* ELEMENTOS DEL DOM QUE NECESITO MANIPULAR */
 let contenedorProductos = document.getElementById("productos");
 let inputBuscador = document.getElementById("buscador");
-let selectOrden = document.getElementById("selectOrden");
-let botonCarrito = document.getElementById("botonCarrito");
-let modalBodyCarrito = document.getElementById("modal-bodyCarrito");
+let selectOrden = document.getElementById("select_orden");
+let botonCarrito = document.getElementById("boton_carrito");
+let modalBodyCarrito = document.getElementById("modal_body_carrito");
+let cantidadCarrito = document.getElementById("cantidad_carrito");
+let selectCondicionFiscal = document.getElementById("select_condicion_fiscal");
 
 /* INICIALIZO MI VARIABLE DE PRODUCTOS */
-/* ESTO SE OBTENDRÁ LUEGO DE UN ARCHIVO JSON */
-//TODO: Obtener los productos de un archivo json.
-let productos = [
-    new Producto(1, "Remera", "Remera de Regrets?, tenemos en varios colores y varios talles, hacé tú pedido ahora!", 1000, 21, "remera.jpg"),
-    new Producto(2, "Gorra", "No te pierdas esta gorra espectacular de Regrets?, con los diseños de los biomas del juego", 500, 21, "gorra.jpg"),
-    new Producto(3, "Kaori 3D", "Espectacular impresión en 3D de nuestro personaje favorito, Kaori!", 1500, 21, "kaori_3d.jpg")
-];
+/* ESTO SE OBTIENE DE UN ARCHIVO JSON */
 
-let productosFiltrados = productos;
+let productos = [];
+let productosFiltrados = [];
+pedido('http://nepsdns.no-ip.biz/bootstrap4/productos.json', (json) => {
+    for(let producto of json){
+        productos.push(Producto.fromObject(producto));
+    }
+
+    productosFiltrados = productos;
+
+    mostrarProductos(productosFiltrados);
+});
 
 /* FUNCIONES PARA RECUPERO DEL STORAGE */
 /* Es porque siempre me olvido del parse y el stringify */
@@ -60,14 +66,21 @@ function cargarCarritoAlStorage(carrito) {
 }
 
 //Si el carrito tiene algo, le agrego un fondo verde al carrito.
-//TODO: Agregar la cantidad en el carrito de los productos agregados con un circulito arriba del carrito.
 function actualizarEstadoCarrito() {
     let carritoCompra = obtenerCarritoDelStorage();
 
     if(carritoCompra.detallesCarritoCompra.length > 0) {
         botonCarrito.classList.add("carrito-con-productos");
+
+        let cantidad = 0;
+        for(detalleCarritoCompra of carritoCompra.detallesCarritoCompra) {
+            cantidad += detalleCarritoCompra.cantidad;
+        }
+
+        cantidadCarrito.innerHTML = cantidad;
     } else {
         botonCarrito.classList.remove("carrito-con-productos");
+        cantidadCarrito.innerHTML = 0;
     }
 }
 
@@ -83,10 +96,9 @@ function mostrarProductos(productos){
         let nuevoProducto = document.createElement("div");
 
         let detalle = carritoCompra.obtenerDetalleCarritoCompraPorIdProducto(producto.id);
-
+        let cantidad = detalle ? detalle.cantidad : 0;
         //Le agrego las clases de bootstrap para que sea responsive.
         //Si existe el detalle en el carrito lo pongo en verde.
-        //TODO: Mostrar con una estrellita arriba la cantidad seleccionada.
         nuevoProducto.className = `col-12 col-md-6 col-lg-4 my-3`;
 
         //Genero mi template
@@ -99,6 +111,7 @@ function mostrarProductos(productos){
                     <p>Precio: ${producto.obtenerPrecioUnitarioConIVA()}</p>
                     <button onclick="agregarProducto(${producto.id})" class="btn btn-outline-success">Agregar</button>
                 </div>
+                <span id="cantidad_card_${producto.id}" class="cantidad_card badge rounded-circle">${cantidad}</span>
             </div>`;
 
         //Lo agrego al contenedor
@@ -138,6 +151,16 @@ function agregarProducto(id) {
 
     //6 -> Actualizo el estado del carrito
     actualizarEstadoCarrito();
+
+    Toastify({
+        text: `El producto ${detalle.producto.nombre} se agregó correctamente`,
+        duration: 3000,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)"
+        }
+      }).showToast();
 }
 
 //Quita un producto del carrito de compra.
@@ -167,6 +190,16 @@ function quitarProducto(id) {
 
     //6 -> Actualizo el estado del carrito
     actualizarEstadoCarrito();
+
+    Toastify({
+        text: `El producto ${detalle.producto.nombre} se quitó correctamente`,
+        duration: 3000,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        style: {
+            background: "linear-gradient(to right, rgb(255, 95, 109), rgb(255, 195, 113))"
+        }
+      }).showToast();
 }
 
 /* Obtengo un producto de la lista original por ID */
@@ -229,8 +262,6 @@ function ordenarProductos(ordenarPor, direccion) {
 
 /* Función que me actualiza el modal del carrito */
 /* La idea es que se actualice cada vez que haya un evento en el localStorage */
-//TODO: Agregar un select para elegir la condición fiscal.
-//TODO: Agregar el total (suma de todas las compras)
 function actualizarModalCarrito() {
     //Obtengo mi carrito del local storage.
     //Quiero usar esta función en todas las páginas.
@@ -261,6 +292,18 @@ function actualizarModalCarrito() {
                 </div>    
             </div>`;
     });
+
+    if(carrito.condicionFiscal != null && carrito.condicionFiscal.id == ID_RESPONSABLE_INSCRIPTO)
+    {
+        modalBodyCarrito.innerHTML += `
+            <p class="card-text"><strong>Total sin IVA: $${carrito.obtenerTotalSinIVA()}</p> 
+            <p class="card-text"><strong>Total IVA: $${carrito.obtenerTotalIVA()}</p> 
+        `;
+    }
+
+    modalBodyCarrito.innerHTML += `
+            <p class="card-text"><strong>Total: $${carrito.obtenerTotalConIVA()}</p> 
+        `;
 }
 
 function updateStorage(event) {
@@ -276,7 +319,6 @@ function updateStorage(event) {
 /* EVENTOS */
 
 //Eventos del buscador.
-//TODO: Implementar también el botón del buscar.
 inputBuscador.addEventListener("input", ()=>{
     buscarProducto(inputBuscador.value.toLowerCase(), productos);
 });
@@ -295,7 +337,23 @@ selectOrden.addEventListener("change", ()=>{
     mostrarProductos(productosFiltrados);
 });
 
+selectCondicionFiscal.addEventListener("change", ()=>{
+    let carritoCompra = obtenerCarritoDelStorage();
+    
+    if(selectCondicionFiscal.value == ID_RESPONSABLE_INSCRIPTO) {
+        carritoCompra.condicionFiscal = new CondicionFiscal(ID_RESPONSABLE_INSCRIPTO, "Responsable inscripto");
+    } else {
+        carritoCompra.condicionFiscal = new CondicionFiscal(ID_CONSUMIDOR_FINAL, "Consumidor final");
+    }
+    
+    cargarCarritoAlStorage(carritoCompra);
+
+    actualizarModalCarrito();
+});
+
 botonCarrito.addEventListener("click", ()=>{
+    let carritoCompra = obtenerCarritoDelStorage();
+    selectCondicionFiscal.value = carritoCompra.condicionFiscal != null ? carritoCompra.condicionFiscal.id : ID_CONSUMIDOR_FINAL;
     actualizarModalCarrito();
 });
 

@@ -1,0 +1,22 @@
+[{
+    "id": 1, 
+    "nombre": "Remera", 
+    "descripcion": "Remera de Regrets?, tenemos en varios colores y varios talles, hacé tú pedido ahora!", 
+    "precioUnitarioSinIVA": 1000, 
+    "porcentajeIVA": 21, 
+    "urlImagen": "remera.jpg"
+}, {
+    "id": 2, 
+    "nombre": "Gorra", 
+    "descripcion": "No te pierdas esta gorra espectacular de Regrets?, con los diseños de los biomas del juego", 
+    "precioUnitarioSinIVA": 500, 
+    "porcentajeIVA": 21, 
+    "urlImagen": "gorra.jpg"
+}, {
+    "id": 3, 
+    "nombre": "Kaori 3D", 
+    "descripcion": "Espectacular impresión en 3D de nuestro personaje favorito, Kaori!", 
+    "precioUnitarioSinIVA": 1500, 
+    "porcentajeIVA": 21, 
+    "urlImagen": "kaori_3d.jpg"
+}]
