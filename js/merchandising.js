@@ -12,6 +12,8 @@ let botonCarrito = document.getElementById("boton_carrito");
 let modalBodyCarrito = document.getElementById("modal_body_carrito");
 let cantidadCarrito = document.getElementById("cantidad_carrito");
 let selectCondicionFiscal = document.getElementById("select_condicion_fiscal");
+let botonConfirmarCompra = document.getElementById("btn_confirmar_compra");
+let formularioConfirmarCompra = document.getElementById("form_confirmar_compra");
 
 /* INICIALIZO MI VARIABLE DE PRODUCTOS */
 /* ESTO SE OBTIENE DE UN ARCHIVO JSON */
@@ -355,6 +357,45 @@ botonCarrito.addEventListener("click", ()=>{
     let carritoCompra = obtenerCarritoDelStorage();
     selectCondicionFiscal.value = carritoCompra.condicionFiscal != null ? carritoCompra.condicionFiscal.id : ID_CONSUMIDOR_FINAL;
     actualizarModalCarrito();
+});
+
+botonConfirmarCompra.addEventListener("click", (event)=>{
+    //Prevengo el submit
+    event.preventDefault();
+
+    //TODO: Enviar al backend los datos de la compra por fetch cuando vea nodejs.
+    //Si el servidor responde ok, se ejecutan todos los pasos de abajo.
+
+    //Actualizo el carrito y el storage.
+    let carritoCompra = obtenerCarritoDelStorage();
+    carritoCompra.detallesCarritoCompra = [];
+    cargarCarritoAlStorage(carritoCompra);
+
+    //Actualizar el estado del carrito
+    actualizarEstadoCarrito();
+
+    //Actualizo el modal del carrito.
+    actualizarModalCarrito();
+    
+    //Actualizo el DOM de productos finales.
+    mostrarProductos(productosFiltrados);
+
+    //Cierro el modal
+    $("#modal_confirmacion_compra").modal("hide");
+
+    //Limpio el formulario de confirmación de compra.
+    formularioConfirmarCompra.reset();
+
+    //Muestro un mensaje de OK.
+    Toastify({
+        text: `La compra se realizó con éxito`,
+        duration: 3000,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)"
+        }
+      }).showToast();
 });
 
 window.addEventListener("storage", updateStorage, false);

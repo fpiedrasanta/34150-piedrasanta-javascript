@@ -76,7 +76,7 @@
                                     <a class="nav-link" href="contacto.html">Contacto</a>
                                 </li>
                                 <li className="nav-item " >
-                                    <a id="boton_carrito" data-bs-toggle="modal" data-bs-target="#idModalCarrito" class="btn btn-secondary">
+                                    <a id="boton_carrito" data-bs-toggle="modal" data-bs-target="#id_modal_carrito" class="btn btn-secondary">
                                         <i class="fas fa-shopping-cart fa-1x"></i>
                                         <span id="cantidad_carrito" class="badge rounded-circle">0</span>
                                     </a>
@@ -145,7 +145,7 @@
         </footer>    
 
         <!--MODAL DEL CARRITO-->
-        <div class="modal fade" id="idModalCarrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="id_modal_carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -162,13 +162,82 @@
                     
                     </div>
                     
-                    <div class="row ml-ato">
-                    <p id="precioTotal"></p>
-                    </div>
-                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" data-bs-dismiss="modal" class="btn btn-success" id="botonFinalizarCompra">Finalizar Compra</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal_confirmacion_compra" class="btn btn-success" id="botonFinalizarCompra">Finalizar Compra</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--MODAL DE CONFIRMACIÓN DE COMPRA-->
+        <div class="modal fade" id="modal_confirmacion_compra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmación de compra</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    
+                    <div class="modal-body" id="modal_body_confirmacion_compra">
+                        <section>
+                            <form action="" id="form_confirmar_compra">
+                                <div class="form-group">
+                                    <label for="txt_cuit">CUIT/DNI</label>
+                                    <input type="text" 
+                                           id="txt_cuit" 
+                                           placeholder="CUIT/DNI"
+                                           class="form-control"
+                                           aria-describedby="cuit_help"
+                                           required>
+                                    <small id="cuit_help" class="form-text text-muted">
+                                        Si es responsable inscripto ingrese su CUIT, si no, ingrese el DNI.
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txt_name">Nombre completo</label>
+                                    <input type="text" 
+                                           id="txt_name" 
+                                           placeholder="Nombre completo"
+                                           class="form-control"
+                                           aria-describedby="name_help"
+                                           required>
+                                    <small id="name_help" class="form-text text-muted">
+                                        Ingrese su nombre y apellido.
+                                    </small>
+                                </div>
+        
+                                <div class="form-group">
+                                    <label for="txt_email">Correo electrónico</label>
+                                    <input type="text" 
+                                           id="txt_email" 
+                                           placeholder="Correo electrónico"
+                                           class="form-control"
+                                           aria-describedby="mail_help"
+                                           required>
+                                    <small id="mail_help" class="form-text text-muted">
+                                        Verifique correctamente su correo electrónico antes de enviar el formulario.
+                                    </small>
+                                </div>
+        
+                                <div class="form-group">
+                                    <label for="txt_domicilio">Domicilio de entrega</label>
+                                    <input type="text" 
+                                           id="txt_domicilio" 
+                                           placeholder="Domicilio de entrega"
+                                           class="form-control"
+                                           aria-describedby="domicilio_help"
+                                           required>
+                                    <small id="domicilio_help" class="form-text text-muted">
+                                        Ingrese el domicilio donde enviaremos el pedido.
+                                    </small>
+                                </div>
+        
+                                <button class="btn btn-primary" type="submit" id="btn_confirmar_compra">Confirmar</button>
+                                <button class="btn btn-secondary" type="reset">Limpiar</button>
+                            </form>
+                        </section>
                     </div>
                 </div>
             </div>
