@@ -1,3 +1,10 @@
+/* Todas las clases del sistema.
+ - Producto: Representa un Producto.
+ - DetalleCarritoCompra: Representa un detalle del carrito de compra.
+ - CondicionFiscal: Condición fiscal asociada al carrito de compra.
+ - Carrito: Tiene una condición fiscal y ninguno o muchos detalles de carrito (1 x cda producto)
+*/
+
 /* VARIABLES GLOBALES */
 const ID_RESPONSABLE_INSCRIPTO = 1;
 const ID_CONSUMIDOR_FINAL = 2;

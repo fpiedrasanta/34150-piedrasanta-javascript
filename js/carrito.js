@@ -1,5 +1,17 @@
 /* PONGO ACÁ TODO LO RELACIONADO AL CARRITO PERO NO AL CATALOGO */
 /* Es para usarlo en todas las páginas */
+/* Funciones:
+ - actualizarEstadoCarrito: actualiza el icono del carrito
+ - actualizarModalCarrito: actualiza el cuerpo del modal
+ - agregarProducto: agrega un producto al carrito
+ - quitarProducto: quita un producto del carrito
+ - updateStorage: evento que se ejecuta cuando el storage cambia
+ 
+ Eventos:
+  - selectCondicionFiscal: Se ejecuta cuando selecciono una condicion fiscal
+  - botonCarrito: Se ejecuta cuando hago clic en el boton del carrito
+  - botonConfirmarCompra: Se ejecuta cuando confirmo la compra.
+*/
 
 let botonCarrito = document.getElementById("boton_carrito");
 let modalBodyCarrito = document.getElementById("modal_body_carrito");
@@ -9,6 +21,7 @@ let botonConfirmarCompra = document.getElementById("btn_confirmar_compra");
 let formularioConfirmarCompra = document.getElementById("form_confirmar_compra");
 
 //Si el carrito tiene algo, le agrego un fondo verde al carrito.
+//Actualiza la cantidad que sale en el circulito.
 function actualizarEstadoCarrito() {
     let carritoCompra = obtenerCarritoDelStorage();
 

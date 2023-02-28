@@ -1,5 +1,11 @@
-/* FUNCIONES PARA RECUPERO DEL STORAGE */
-/* Es porque siempre me olvido del parse y el stringify */
+/* FUNCIONES PARA EL MANEJO DEL STORAGE */
+/* Funciones:
+ - obtenerObjetoDelStorage
+ - guardarObjetoEnStorage
+ - obtenerCarritoDelStorage
+ - cargarCarritoAlStorage
+*/
+
 function obtenerObjetoDelStorage(key) {
     let objeto = localStorage.getItem(key);
     if(objeto) {

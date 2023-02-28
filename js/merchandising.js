@@ -1,3 +1,16 @@
+/* Funciones propias de la página de merchandising */
+/* Funciones:
+ - actualizarCatalago: Actualiza el cuerpo de la página con los productos.
+ - mostrarProducto: Arma el DOM de la página y lo muestra.
+ - obtenerProductoPorId: Obtengo del array original de productos uno por ID.
+ - buscarProducto: filtra la copia del array de productos.
+ - ordenarProductos: Ordena la copia del array de productos.
+ 
+Eventos:
+  - selectOrden: Se ejecuta cuando se selecciona una nueva manera de ordenar.
+  - inputBuscador: Se ejecuta cuando cambia el criterio de búsqueda.
+*/
+
 /* VARIABLES GLOBALES */
 const NOMBRE = 1;
 const PRECIO = 2;
@@ -21,7 +34,7 @@ pedido('http://nepsdns.no-ip.biz/bootstrap4/productos.json', (json) => {
 
     productosFiltrados = productos;
 
-    mostrarProductos(productosFiltrados);
+    actualizarCatalogo();
 });
 
 function actualizarCatalogo() {
@@ -81,7 +94,7 @@ function buscarProducto(query, array){
         }
     )
 
-    mostrarProductos(productosFiltrados);
+    actualizarCatalogo();
 }
 
 //Función que ordena los productos.
@@ -138,8 +151,8 @@ selectOrden.addEventListener("change", ()=>{
         ordenarProductos(PRECIO, DESC);
     }
 
-    mostrarProductos(productosFiltrados);
+    actualizarCatalogo();
 });
 
 //INICIO
-mostrarProductos(productosFiltrados);
+actualizarCatalogo();
