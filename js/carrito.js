@@ -210,6 +210,9 @@ botonConfirmarCompra.addEventListener("click", (event)=>{
     //Actualizo el modal del carrito.
     actualizarModalCarrito();
     
+    //Si la función de actualizar pantalla está definida, la llamo.
+    if(window.actualizarCatalogo) actualizarCatalogo();
+
     //Cierro el modal
     $("#modal_confirmacion_compra").modal("hide");
 
