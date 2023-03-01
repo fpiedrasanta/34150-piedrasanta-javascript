@@ -27,7 +27,7 @@ let selectOrden = document.getElementById("select_orden");
 
 let productos = [];
 let productosFiltrados = [];
-pedido('http://nepsdns.no-ip.biz/bootstrap4/productos.json', (json) => {
+pedido('https://fpiedrasanta.github.io/34150-piedrasanta-javascript/jsons/productos.json', (json) => {
     for(let producto of json){
         productos.push(Producto.fromObject(producto));
     }
